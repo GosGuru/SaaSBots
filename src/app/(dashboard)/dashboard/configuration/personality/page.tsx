@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getUserWithTenant } from "@/lib/supabase/server";
 import { PersonalityForm } from "@/components/forms/personality-form";
 import type { PersonalityFormData } from "@/lib/validations";
+import type { Json } from "@/types/database.types";
 
 export const metadata = {
   title: "Personalidad del Bot | SASbot",
@@ -36,7 +37,7 @@ export default async function PersonalityPage() {
         tenant_id: currentUser.profile.tenant_id,
         category: "personality" as const,
         config_key: "personality",
-        config_value: data as unknown as Record<string, unknown>,
+        config_value: data as unknown as Json,
       }, {
         onConflict: "tenant_id,config_key",
       });
