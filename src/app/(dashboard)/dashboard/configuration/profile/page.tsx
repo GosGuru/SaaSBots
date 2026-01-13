@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getUserWithTenant } from "@/lib/supabase/server";
 import { ProfileForm } from "@/components/forms/profile-form";
 import type { ProfileFormData } from "@/lib/validations";
+import type { Json } from "@/types/database.types";
 
 export const metadata = {
   title: "Perfil del Bot | SASbot",
@@ -35,7 +36,7 @@ export default async function ProfilePage() {
         tenant_id: currentUser.profile.tenant_id,
         category: "profile" as const,
         config_key: "profile",
-        config_value: data as unknown as Record<string, unknown>,
+        config_value: data as unknown as Json,
       }, {
         onConflict: "tenant_id,config_key",
       });

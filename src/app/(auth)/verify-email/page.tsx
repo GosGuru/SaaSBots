@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
 import Link from "next/link";
@@ -12,11 +13,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Mail, RefreshCw, CheckCircle2, ArrowLeft } from "lucide-react";
+import { Mail, RefreshCw, CheckCircle2, ArrowLeft, Loader2 } from "lucide-react";
 import { resendConfirmationEmail } from "@/lib/actions/auth";
 import { useToast } from "@/hooks/use-toast";
 
-export default function VerifyEmailPage() {
+function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
   const [isPending, startTransition] = useTransition();
@@ -118,5 +119,23 @@ export default function VerifyEmailPage() {
         </Link>
       </CardFooter>
     </Card>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <Card className="w-full max-w-md">
+      <CardContent className="flex items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </CardContent>
+    </Card>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <VerifyEmailContent />
+    </Suspense>
   );
 }

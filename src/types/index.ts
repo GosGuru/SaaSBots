@@ -1,66 +1,66 @@
-import type { Tables, InsertTables, UpdateTables, Enums } from "./database.types";
+import type { Tables, TablesInsert, TablesUpdate } from "./database.types";
 
 // ============================================
 // Re-exports de Database Types
 // ============================================
-export type { Database, Json, Tables, InsertTables, UpdateTables, Enums } from "./database.types";
+export type { Database, Json, Tables, TablesInsert, TablesUpdate } from "./database.types";
 
 // ============================================
 // Entity Types (Aliases más simples)
 // ============================================
 export type Tenant = Tables<"tenants">;
-export type TenantInsert = InsertTables<"tenants">;
-export type TenantUpdate = UpdateTables<"tenants">;
+export type TenantInsert = TablesInsert<"tenants">;
+export type TenantUpdate = TablesUpdate<"tenants">;
 
 export type User = Tables<"users">;
-export type UserInsert = InsertTables<"users">;
-export type UserUpdate = UpdateTables<"users">;
+export type UserInsert = TablesInsert<"users">;
+export type UserUpdate = TablesUpdate<"users">;
 
 export type IndustryTemplate = Tables<"industry_templates">;
-export type IndustryTemplateInsert = InsertTables<"industry_templates">;
+export type IndustryTemplateInsert = TablesInsert<"industry_templates">;
 
 export type BotConfiguration = Tables<"bot_configurations">;
-export type BotConfigurationInsert = InsertTables<"bot_configurations">;
-export type BotConfigurationUpdate = UpdateTables<"bot_configurations">;
+export type BotConfigurationInsert = TablesInsert<"bot_configurations">;
+export type BotConfigurationUpdate = TablesUpdate<"bot_configurations">;
 
 export type Service = Tables<"services">;
-export type ServiceInsert = InsertTables<"services">;
-export type ServiceUpdate = UpdateTables<"services">;
+export type ServiceInsert = TablesInsert<"services">;
+export type ServiceUpdate = TablesUpdate<"services">;
 
 export type Image = Tables<"images">;
-export type ImageInsert = InsertTables<"images">;
+export type ImageInsert = TablesInsert<"images">;
 
 export type Conversation = Tables<"conversations">;
-export type ConversationInsert = InsertTables<"conversations">;
-export type ConversationUpdate = UpdateTables<"conversations">;
+export type ConversationInsert = TablesInsert<"conversations">;
+export type ConversationUpdate = TablesUpdate<"conversations">;
 
 export type Message = Tables<"messages">;
-export type MessageInsert = InsertTables<"messages">;
+export type MessageInsert = TablesInsert<"messages">;
 
 export type BlockedNumber = Tables<"blocked_numbers">;
-export type BlockedNumberInsert = InsertTables<"blocked_numbers">;
+export type BlockedNumberInsert = TablesInsert<"blocked_numbers">;
 
 export type AvailabilitySchedule = Tables<"availability_schedules">;
-export type AvailabilityScheduleInsert = InsertTables<"availability_schedules">;
+export type AvailabilityScheduleInsert = TablesInsert<"availability_schedules">;
 
 export type AuditLog = Tables<"audit_logs">;
-export type AuditLogInsert = InsertTables<"audit_logs">;
+export type AuditLogInsert = TablesInsert<"audit_logs">;
 
 export type ApiKey = Tables<"api_keys">;
-export type ApiKeyInsert = InsertTables<"api_keys">;
+export type ApiKeyInsert = TablesInsert<"api_keys">;
 
 // ============================================
-// Enum Types
+// Enum Types (basados en constraints SQL)
 // ============================================
-export type BusinessType = Enums<"business_type">;
-export type UserRole = Enums<"user_role">;
-export type TenantStatus = Enums<"tenant_status">;
-export type SubscriptionPlan = Enums<"subscription_plan">;
-export type ConversationStatus = Enums<"conversation_status">;
-export type MessageDirection = Enums<"message_direction">;
-export type MessageType = Enums<"message_type">;
-export type MessageStatus = Enums<"message_status">;
-export type ConfigCategory = Enums<"config_category">;
+export type BusinessType = "escort" | "dental" | "retail" | "restaurant" | "other";
+export type UserRole = "owner" | "admin" | "viewer";
+export type TenantStatus = "trial" | "active" | "suspended" | "cancelled";
+export type SubscriptionPlan = "free" | "basic" | "pro" | "enterprise";
+export type ConversationStatus = "active" | "archived" | "blocked";
+export type MessageDirection = "inbound" | "outbound";
+export type MessageType = "text" | "image" | "audio" | "video" | "document" | "location" | "contact" | "sticker";
+export type MessageStatus = "sent" | "delivered" | "read" | "failed";
+export type ConfigCategory = "profile" | "personality" | "services" | "rules" | "availability" | "integrations";
 
 // ============================================
 // Extended Types (con relaciones)
