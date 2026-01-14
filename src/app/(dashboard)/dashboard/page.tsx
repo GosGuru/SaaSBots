@@ -7,9 +7,11 @@ import {
   TrendingUp,
   ArrowRight,
   Settings,
+  Check,
 } from "lucide-react";
 
 import { getUserWithTenant } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
 import { StatsCard } from "@/components/dashboard/stats-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +25,33 @@ import {
 export default async function DashboardPage() {
   const userData = await getUserWithTenant();
   const tenant = userData?.tenant;
+  const tenantId = userData?.profile?.tenant_id;
   const hasWorkflow = !!tenant?.n8n_workflow_id;
+
+  // Cargar estado de configuración
+  let hasProfile = false;
+  let hasServices = false;
+
+  if (tenantId) {
+    const supabase = createServiceClient();
+    
+    const [{ data: botProfile }, { data: services }] = await Promise.all([
+      (supabase as any)
+        .from("bot_profiles")
+        .select("id, bot_name")
+        .eq("tenant_id", tenantId)
+        .single(),
+      supabase
+        .from("services")
+        .select("id")
+        .eq("tenant_id", tenantId)
+        .eq("is_active", true)
+        .limit(1),
+    ]);
+
+    hasProfile = !!botProfile?.bot_name;
+    hasServices = services && services.length > 0;
+  }
 
   return (
     <div className="space-y-6">
@@ -73,14 +101,14 @@ export default async function DashboardPage() {
                 title="Perfil"
                 description="Nombre, descripción y foto"
                 href="/dashboard/configuration/profile"
-                completed={false}
+                completed={hasProfile}
               />
               <OnboardingStep
                 step={2}
                 title="Servicios"
                 description="Agrega tus productos o servicios"
                 href="/dashboard/configuration/services"
-                completed={false}
+                completed={hasServices}
               />
               <OnboardingStep
                 step={3}
@@ -94,7 +122,7 @@ export default async function DashboardPage() {
                 title="WhatsApp"
                 description="Conecta tu número"
                 href="/dashboard/settings/whatsapp"
-                completed={false}
+                completed={hasWorkflow}
               />
             </div>
           </CardContent>
@@ -256,11 +284,11 @@ function OnboardingStep({
         <div
           className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${
             completed
-              ? "bg-success text-success-foreground"
+              ? "bg-green-500 text-white"
               : "bg-primary/10 text-primary"
           }`}
         >
-          {step}
+          {completed ? <Check className="h-4 w-4" /> : step}
         </div>
         <div>
           <p className="font-medium group-hover:text-primary">{title}</p>

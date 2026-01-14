@@ -83,38 +83,63 @@ export const createTenantSchema = z.object({
 // Bot Configuration Schemas
 // ============================================
 export const profileSchema = z.object({
+  // Identidad del bot
   bot_name: z
     .string()
     .min(1, "El nombre es requerido")
     .min(2, "El nombre debe tener al menos 2 caracteres")
     .max(50, "El nombre es muy largo"),
-  description: z
-    .string()
-    .max(500, "La descripción no puede superar 500 caracteres")
-    .optional(),
-  age: z.coerce
+  bot_age: z.coerce
     .number()
     .min(18, "La edad mínima es 18")
     .max(99, "La edad máxima es 99")
-    .optional(),
-  height: z.coerce
-    .number()
-    .min(140, "La altura mínima es 140cm")
-    .max(220, "La altura máxima es 220cm")
-    .optional(),
-  measurements: z
+    .optional()
+    .nullable(),
+  bot_nationality: z
     .string()
-    .max(20, "Las medidas son muy largas")
-    .optional(),
-  location: z
+    .max(50, "La nacionalidad es muy larga")
+    .optional()
+    .nullable(),
+  bot_gender: z.enum(["female", "male", "neutral"]).default("female"),
+  
+  // Descripción física (opcional, para servicios tipo escort)
+  physical_description: z
     .string()
-    .max(100, "La ubicación es muy larga")
-    .optional(),
-  availability_text: z
+    .max(500, "La descripción física es muy larga")
+    .optional()
+    .nullable(),
+  
+  // Personalidad y comunicación
+  personality_traits: z
     .string()
-    .max(500, "El texto de disponibilidad es muy largo")
-    .optional(),
-  profile_photo_url: z.string().url("Ingresa una URL válida").optional().or(z.literal("")),
+    .max(500, "Los rasgos de personalidad son muy largos")
+    .optional()
+    .nullable(),
+  tone_description: z
+    .string()
+    .max(500, "La descripción del tono es muy larga")
+    .optional()
+    .nullable(),
+  communication_style: z.enum(["informal", "formal", "mixto"]).default("informal"),
+  
+  // Rol/Trabajo
+  role_description: z
+    .string()
+    .max(1000, "La descripción del rol es muy larga")
+    .optional()
+    .nullable(),
+  
+  // Ubicación (se guarda en tenant)
+  address: z
+    .string()
+    .max(200, "La dirección es muy larga")
+    .optional()
+    .nullable(),
+  address_instructions: z
+    .string()
+    .max(500, "Las instrucciones son muy largas")
+    .optional()
+    .nullable(),
 });
 
 export const personalitySchema = z.object({
