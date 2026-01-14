@@ -214,6 +214,62 @@ export type Database = {
           },
         ]
       }
+      bot_profiles: {
+        Row: {
+          id: string
+          tenant_id: string
+          bot_name: string
+          bot_age: number | null
+          bot_nationality: string | null
+          bot_gender: string | null
+          physical_description: string | null
+          personality_traits: string | null
+          tone_description: string | null
+          communication_style: string | null
+          role_description: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          tenant_id: string
+          bot_name?: string
+          bot_age?: number | null
+          bot_nationality?: string | null
+          bot_gender?: string | null
+          physical_description?: string | null
+          personality_traits?: string | null
+          tone_description?: string | null
+          communication_style?: string | null
+          role_description?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          tenant_id?: string
+          bot_name?: string
+          bot_age?: number | null
+          bot_nationality?: string | null
+          bot_gender?: string | null
+          physical_description?: string | null
+          personality_traits?: string | null
+          tone_description?: string | null
+          communication_style?: string | null
+          role_description?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bot_profiles_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: true
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bot_configurations: {
         Row: {
           category: string
